@@ -31,7 +31,54 @@ var app = builder.Build();//this is one request pipeline,whenever we run the app
 //====================This is one middleware ..we can create n no of middlewares as per our requirment
 //here we are adding the inline middleware to the request pipeline by using app.use() method and we are writing the logic of the middleware inside the app.use() method.
 //whatever the order we register the middleware in the request pipeline same order it will execute,if any middleware executes successfully it will pass the request to next middleware,if its fail/Shortcurit it will stop the middleware execution and throwing the error.
+//****below are the inline middlewares we are adding to the request pipeline by using app.use() method and we are writing the logic of the middleware inside the app.use() method.
+//inside inline middleware we will write required logic as per our requirement,here i am writing dummy logic just for demo purpose, you can write your required logic inside the inline middleware.
+app.Use(async (context, next) => {//app.Use for Inline middlewares,write all logic inside the method,this is called inline middleware.
+    await context.Response.WriteAsync("Hello I am From user9");//this is dummy logic,you can write your required logic
+    await next.Invoke();//next will call the next middleware
+});
 
+//Use method add a middleware to the request pipeline.based on order you registered to request paipeleine.
+//it will exceute same order.
+app.Use(async (context, next) => {//app.Use for Inline middlewares
+    await context.Response.WriteAsync("Hello I am From user2");//this is dummy logic,you can write your required logic
+    await next.Invoke();//next will call the next middleware
+});
+app.Use(async (context, next) => {//app.Use for Inline middlewares
+    await context.Response.WriteAsync("Hello I am From user3");//this is dummy logic,you can write your required logic
+    await next.Invoke();//next will call the next middleware
+});
+app.Use(async (context, next) => {//app.Use for Inline middlewares
+    await context.Response.WriteAsync("Hello I am From user4");//this is dummy logic,you can write your required logic
+    await next.Invoke();//next will call the next middleware
+});
+app.Use(async (context, next) => {//app.Use for Inline middlewares
+    await context.Response.WriteAsync("Hello I am From user5");//this is dummy logic,you can write your required logic
+    await next.Invoke();//next will call the next middleware
+});
+app.Use(async (context, next) => {//app.Use for Inline middlewares
+    await context.Response.WriteAsync("Hello I am From user6");//this is dummy logic,you can write your required logic
+    await next.Invoke();//next will call the next middleware
+});
+app.Use(async (context, next) => {//app.Use for Inline middlewares
+    await context.Response.WriteAsync("Hello I am From user7");//this is dummy logic,you can write your required logic
+    await next.Invoke();//next will call the next middleware
+});
+app.Use(async (context, next) => {//app.Use for Inline middlewares
+    await context.Response.WriteAsync("Hello I am From user8");//this is dummy logic,you can write your required logic
+    await next.Invoke();//next will call the next middleware
+});
+app.Use(async (context, next) => {//app.Use for Inline middlewares
+    await context.Response.WriteAsync("Hello I am From user1");//this is dummy logic,you can write your required logic
+    await next.Invoke();//next will call the next middleware
+});
+
+
+
+app.Run();//always it should be ending only.
+          //(without app.run() if you run the application it will throw error like "WebServer failed to listen on port 5296")
+          //After app.run () method if you write any code it will not exceute.because app.run() does not having next.due to that exceution is stopped in this line.
+          //App.run() is a termainal middleware,it ends the application pipeline without calling the next middleware.always app.run() is last in program.cs
 #endregion
 
 /*
