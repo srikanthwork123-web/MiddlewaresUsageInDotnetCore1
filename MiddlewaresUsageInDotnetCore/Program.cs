@@ -33,9 +33,13 @@ var app = builder.Build();//this is one request pipeline,whenever we run the app
 //whatever the order we register the middleware in the request pipeline same order it will execute,if any middleware executes successfully it will pass the request to next middleware,if its fail/Shortcurit it will stop the middleware execution and throwing the error.
 //****below are the inline middlewares we are adding to the request pipeline by using app.use() method and we are writing the logic of the middleware inside the app.use() method.
 //inside inline middleware we will write required logic as per our requirement,here i am writing dummy logic just for demo purpose, you can write your required logic inside the inline middleware.
-#region App.Map()Usage
+
+#endregion
+
+
+#region app.Map() methodusageSection
 //app.map():-
-================
+//================
 //used to branch the request pipeline based on the request path. it allows you to define different middleware pipelines for different request paths.
 //http://localhost:5296/admin  when you give this path in browser it will call this map() method it will show the whatever written the content inside it will exceute.
 app.Map("/admin", adminApp =>
@@ -63,8 +67,8 @@ app.Map("/ApiHelathcheck", adminApp =>
         await context.Response.WriteAsync("Current Api is working fine.no issues");
     });
 });
-#endregion
 
+#endregion
 
 //Use method add a middleware to the request pipeline.based on order you registered to request paipeleine.
 //it will exceute same order.
@@ -113,10 +117,9 @@ app.Run();//always it should be ending only.
 
 
 /*
- 1.What is Middleware? how  many Ways we create the middleware's ?
 A)=>Middleware process Request and Response to the Application pipeline.
 Middleware executed in Sequence order.
-Whatever order you register  in the application pipeline same order it will execute.
+Whatever order you register  in the application pipeline same order it will execute.
 =>Middleware take the request and process it and next it will pass the request to next middleware and then next middleware will process the request and then it will pass the request to next middleware.
 =>if middleware executes successfully it will pass the request to next middleware.
 if its fail/Shortcurit it will stop the middleware execution and throwing the error.
@@ -126,12 +129,25 @@ middleware naming convestion Starts with use keyword.
 =>we can create the middlewares 2 ways.
 1)inline middleware.
 2)custom middleware.
-and we can use predefined middlewares as per requirment like Swagger, authentication,authorization,exception handling,logging etc.
+and also we can use predefined middlewares as per requirment like Swagger, authentication,authorization,exception handling,logging etc.
 ==================================================================================================================================
+//for inline middlewares all logic written in the app.use() method and for custom middlewares we need to create a class and write the logic in that class and then we need to register that custom middleware in the program.cs file using the app.UseMiddleware method.
 1)inline middleware:
 ====================
-=>inline middleware is a simple way to create the middleware.
-we can create the inline middleware in program.cs file.
-we can create the inline middleware by using app.use() method.
-we can write the logic of the middleware inside the app.use() method.
+=>we can create the inline middleware in program.cs file using app.use() method,
+and write the logic of the middleware inside the app.use() method
+
+2)custom middleware:
+======================
+=>Custom middlewares we will create as per our project requirement.
+=>we need to register the custom middleware in the program.cs file  using the app.UseMiddleware method .
+=> UseMiddleware method is used to add custom middleware components to the application's request  pipeline. 
+  app.UseMiddleWare<CustomMiddlewareClassName>();we must register like this way.
+=>if any exception is raised in the application, we can catch that exception in the Global exceptioncustom middleware 
+and we can log that exception in the database by In projectlevelerrorlog table   and also we can log that exception 
+in the text file by using serilog
+and also  we can log that exception in azure cloud by using azure application insights service.
+=>we can create the custom middleware by creating a class and implementing the logic of the middleware in that class.
+ 
+
 */
