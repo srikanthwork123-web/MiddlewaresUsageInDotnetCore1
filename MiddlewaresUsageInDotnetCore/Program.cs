@@ -110,7 +110,7 @@ app.Run();//always it should be ending only.
           //(without app.run() if you run the application it will throw error like "WebServer failed to listen on port 5296")
           //After app.run () method if you write any code it will not exceute.because app.run() does not having next.due to that exceution is stopped in this line.
           //App.run() is a termainal middleware,it ends the application pipeline without calling the next middleware.always app.run() is last in program.cs
-#endregion
+
 
 /*
  1.What is Middleware? how  many Ways we create the middleware's ?
