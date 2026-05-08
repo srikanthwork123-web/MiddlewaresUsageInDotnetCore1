@@ -33,10 +33,38 @@ var app = builder.Build();//this is one request pipeline,whenever we run the app
 //whatever the order we register the middleware in the request pipeline same order it will execute,if any middleware executes successfully it will pass the request to next middleware,if its fail/Shortcurit it will stop the middleware execution and throwing the error.
 //****below are the inline middlewares we are adding to the request pipeline by using app.use() method and we are writing the logic of the middleware inside the app.use() method.
 //inside inline middleware we will write required logic as per our requirement,here i am writing dummy logic just for demo purpose, you can write your required logic inside the inline middleware.
-app.Use(async (context, next) => {//app.Use for Inline middlewares,write all logic inside the method,this is called inline middleware.
-    await context.Response.WriteAsync("Hello I am From user9");//this is dummy logic,you can write your required logic
-    await next.Invoke();//next will call the next middleware
+#region App.Map()Usage
+//app.map():-
+================
+//used to branch the request pipeline based on the request path. it allows you to define different middleware pipelines for different request paths.
+//http://localhost:5296/admin  when you give this path in browser it will call this map() method it will show the whatever written the content inside it will exceute.
+app.Map("/admin", adminApp =>
+{
+    adminApp.Run(async context =>
+    {
+        await context.Response.WriteAsync("Hyderabad-Admin Area");
+    });
 });
+//http://localhost:5296/supervisior  when you give this path in browser it will call this map() method it will show the whatever written the content inside it will exceute.
+
+app.Map("/supervisior", adminApp =>
+{
+    adminApp.Run(async context =>
+    {
+        await context.Response.WriteAsync("Chenni-Supervisior Area");
+    });
+});
+//http://localhost:5296/ApiHelathcheck  when you give this path in browser it will call this map() method it will show the whatever written the content inside it will exceute.
+
+app.Map("/ApiHelathcheck", adminApp =>
+{
+    adminApp.Run(async context =>
+    {
+        await context.Response.WriteAsync("Current Api is working fine.no issues");
+    });
+});
+#endregion
+
 
 //Use method add a middleware to the request pipeline.based on order you registered to request paipeleine.
 //it will exceute same order.
@@ -72,7 +100,10 @@ app.Use(async (context, next) => {//app.Use for Inline middlewares
     await context.Response.WriteAsync("Hello I am From user1");//this is dummy logic,you can write your required logic
     await next.Invoke();//next will call the next middleware
 });
-
+app.Use(async (context, next) => {//app.Use for Inline middlewares,write all logic inside the method,this is called inline middleware.
+    await context.Response.WriteAsync("Hello I am From user9");//this is dummy logic,you can write your required logic
+    await next.Invoke();//next will call the next middleware
+});
 
 
 app.Run();//always it should be ending only.
